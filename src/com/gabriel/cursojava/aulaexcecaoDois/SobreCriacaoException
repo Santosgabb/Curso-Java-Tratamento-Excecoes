@@ -1,0 +1,54 @@
+
+1. COMO CRIAR A CLASSE DA EXCEÇÃO
+--------------------------------------------------------------------------------
+* Regra: Crie uma classe normal e herde com 'extends Exception'.
+* Construtor: Receba os dados do erro que você quer guardar/mostrar.
+* Mensagem: Sobrescreva o método 'toString()' (ou use 'super("mensagem")').
+
+Exemplo:
+public class DivisaoNaoExata extends Exception {
+    private int num;
+    private int dem;
+
+    public DivisaoNaoExata(int num, int dem) {
+        this.num = num;
+        this.dem = dem;
+    }
+
+    @Override
+    public String toString() {
+        return "Resultado de " + num + "/" + dem + " não é um inteiro!";
+    }
+}
+
+
+2. COMO DISPARAR / LANÇAR (throw)
+--------------------------------------------------------------------------------
+* Quando a sua regra de negócio for violada, dispare usando a palavra 'throw'
+  seguida da criação do objeto com 'new'.
+
+Exemplo:
+if (numeros[i] % 2 != 0) {
+    throw new DivisaoNaoExata(numeros[i], denom[i]);
+}
+
+
+3. COMO CAPTURAR (catch)
+--------------------------------------------------------------------------------
+* Como herdou de 'Exception', ela é Checked: você é OBRIGADO a capturar no try-catch
+  ou declarar 'throws' na assinatura do método.
+
+Exemplo:
+try {
+    // código que pode disparar o erro
+} catch (DivisaoNaoExata e) {
+    System.out.println(e.getMessage()); // ou System.out.println(e);
+    e.printStackTrace();                // mostra linha e caminho do erro
+}
+
+
+================================================================================
+NÃO CONFUNDIR (DIFERENÇA ESSENCIAL):
+* throw  -> Verbo de ação (dispara o erro na hora dentro do código).
+* throws -> Aviso na assinatura do método (alerta que o método pode lançar o erro).
+================================================================================

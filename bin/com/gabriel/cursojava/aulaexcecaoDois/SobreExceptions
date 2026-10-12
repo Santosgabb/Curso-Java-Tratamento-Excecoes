@@ -1,0 +1,104 @@
+================================================================================
+              HIERARQUIA E TIPOS DE ERROS EM JAVA (AULA 51)
+================================================================================
+
+                                 Object
+                                   |
+                               Throwable
+                              /         \
+                         Error           Exception
+                      (Unchecked)       /         \
+                                  (Checked)     RuntimeException
+                                                  (Unchecked)
+
+================================================================================
+1. HIERARQUIA BASE
+================================================================================
+
+* java.lang.Object
+  - Superclasse de todas as classes no Java.
+
+* java.lang.Throwable
+  - Subclasse direta de Object.
+  - É a superclasse de TUDO o que pode ser lançado com 'throw' ou tratado com 'catch'.
+  - Divide-se em: Error e Exception.
+
+
+================================================================================
+2. java.lang.Error (UNCHECKED / NÃO CHECADO)
+================================================================================
+
+* O que é:
+  - Falhas graves do ambiente de execução (JVM ou Sistema Operacional).
+  - O sistema atinge um limite crítico e não consegue suportar a aplicação.
+
+* Tratamento:
+  - NÃO deve ser capturado com try-catch.
+  - A aplicação deve ser encerrada para não operar em estado corrompido.
+
+* Exemplos comuns:
+  - OutOfMemoryError    -> Esgotamento de memória RAM heap na JVM.
+  - StackOverflowError  -> Estouro de pilha (muito comum em recursão infinita).
+
+
+================================================================================
+3. java.lang.Exception
+================================================================================
+
+* O que é:
+  - Condições anormais que ocorrem durante o programa, mas que uma aplicação 
+    normal consegue prever e tratar.
+
+Divide-se em duas categorias:
+
+--------------------------------------------------------------------------------
+A) EXCEÇÕES CHECADAS (CHECKED EXCEPTIONS)
+--------------------------------------------------------------------------------
+* Herança:
+  - Herdam de Exception, mas NÃO herdam de RuntimeException.
+
+* Regra do Compilador:
+  - O compilador OBRIGA o tratamento.
+  - Você é obrigado a usar 'try-catch' ou declarar 'throws' no método.
+  - Se não tratar, o código NÃO COMPILA (a IDE marca erro vermelho).
+
+* Onde acontecem:
+  - Operações externas e I/O (fora do controle direto da memória): arquivos,
+    conexões de rede, consultas a banco de dados.
+
+* Exemplos:
+  - IOException           -> Falha genérica de leitura/escrita.
+  - SQLException          -> Falha ao conectar/consultar banco de dados.
+  - FileNotFoundException -> Arquivo não encontrado no disco.
+
+--------------------------------------------------------------------------------
+B) EXCEÇÕES NÃO CHECADAS (UNCHECKED / RUNTIME EXCEPTIONS)
+--------------------------------------------------------------------------------
+* Herança:
+  - Todas as classes que herdam direta ou indiretamente de RuntimeException.
+
+* Regra do Compilador:
+  - O compilador NÃO OBRIGA o tratamento com try-catch nem 'throws'.
+  - O código compila sem erros na IDE.
+
+* Onde acontecem:
+  - Falhas de lógica do desenvolvedor em tempo de execução (runtime).
+  - A forma correta de evitar é corrigindo o código e validando os dados.
+
+* Exemplos:
+  - ArrayIndexOutOfBoundsException -> Acessar índice inválido de um array.
+  - NullPointerException          -> Chamar método em variável que está nula.
+  - ArithmeticException           -> Operações ilegais, como divisão por zero.
+  - ClassCastException            -> Tentativa de casting entre tipos incompatíveis.
+
+
+================================================================================
+RESUMO PARA MEMORIZAR
+================================================================================
+
+| Tipo             | Origem             | Obriga try-catch? | Onde acusa?       |
+|------------------|--------------------|-------------------|-------------------|
+| Error            | Ambiente / JVM     | NÃO               | Em execução       |
+| Checked          | Recursos externos  | SIM (Obrigatório) | Na compilação     |
+| RuntimeException | Lógica do código   | NÃO (Opcional)    | Em execução       |
+================================================================================
